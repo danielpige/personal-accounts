@@ -13,6 +13,10 @@ import { UpdateAuthenticationDto } from './dto/update-authentication.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { PaginationSearchDto } from 'src/common/dtos/pagination-search.dto';
+import { Auth } from './decorators/auth.decorators';
+import { UserRole } from './enums/user-role.enum';
+import { GetUser } from './decorators/get-user.decorators';
+import { Authentication } from './entities/authentication.entity';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -29,7 +33,13 @@ export class AuthenticationController {
   }
 
   @Post()
-  findAll(@Body() paginationSearchDto: PaginationSearchDto) {
+  @Auth(...[UserRole.ADMIN, UserRole.USER])
+  findAll(
+    @Body() paginationSearchDto: PaginationSearchDto,
+    @GetUser() user: Authentication,
+  ) {
+    console.log(user);
+
     return this.authenticationService.findAll(paginationSearchDto);
   }
 
@@ -39,6 +49,7 @@ export class AuthenticationController {
   }
 
   @Patch(':id')
+  @Auth(...[UserRole.ADMIN, UserRole.USER])
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAuthenticationDto: UpdateAuthenticationDto,
@@ -47,6 +58,7 @@ export class AuthenticationController {
   }
 
   @Delete(':id')
+  @Auth(...[UserRole.ADMIN, UserRole.USER])
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.authenticationService.remove(id);
   }
