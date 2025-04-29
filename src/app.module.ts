@@ -2,7 +2,8 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { EnvConfiguration } from './config/app.config';
 import { JoiValidationSchema } from './config/joi.validation';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       validationSchema: JoiValidationSchema,
     }),
     AuthenticationModule,
+    CommonModule,
   ],
   controllers: [],
 })

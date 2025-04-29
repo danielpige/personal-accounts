@@ -16,7 +16,7 @@ export class Authentication {
   @Column({ type: 'varchar', length: 100, unique: true })
   userName: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, select: false })
   password: string;
 
   @Column({ type: 'varchar', length: 150, unique: true })
